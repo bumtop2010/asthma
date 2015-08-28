@@ -122,8 +122,15 @@ class PossibleTrigger(db.Model):
 ####################################################################
 def connect_to_db(app):
     """Connect the database to my Flask app."""
+    from flask import Flask, render_template, request
+    from flask.ext.sqlalchemy import SQLAlchemy
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///breathe.db'
+    from flask.ext.heroku import Heroku
+
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/breathe'
+    heroku = Heroku(app)
+    db = SQLAlchemy(app)
     db.app = app
     db.init_app(app)
 
